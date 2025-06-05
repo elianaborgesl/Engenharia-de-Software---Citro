@@ -17,17 +17,27 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav w-100">
-                    <a class="nav-link active" href="cadastro/cadastro.html">Cadastro</a>
-                    <a class="nav-link" href="#">Entrada</a>
-                    <a class="nav-link" href="#">Venda</a>
-                    <a class="nav-link" href="#">Produtos</a>
+                    <a class="nav-link active" href="#">Produtos</a>
+                    <a class="nav-link" href="cadastro/cadastro.html">Cadastro</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-5 pt-3">
-        
+    <div class="estoque-list container">
+        <h2>Estoque Atual (<span id="total-itens">0</span> itens)</h2>
+        <div class="row" id="listaSapatos"></div>
     </div>
+
+    <div class="backup-section">
+    	<h2>Backup do Estoque</h2>
+    	<button class="btn-secondary" onclick="exportarEstoque()">Exportar Estoque</button>
+    	<button class="btn-secondary" onclick="document.getElementById('import-input').click()">Importar Estoque</button>
+    	<input type="file" id="import-input" accept=".json" class="hidden" onchange="importarEstoque(this)">
+    	<p>Importante: O backup é essencial para não perder seus dados!</p>
+	</div>
+
+    <script src="estoque.js"></script>
+
 </body>
 </html>

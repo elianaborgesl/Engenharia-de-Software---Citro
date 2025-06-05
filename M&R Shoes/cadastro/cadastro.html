@@ -15,69 +15,72 @@
         </div>
     </header>
 
+    <div id="mensagem-sucesso" class="mensagem-sucesso hidden"></div>
+
     <div class="container">
-        <div class="row mb-4">
-            <div class="col-md-8 mx-auto">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Pesquisar produtos...">
-                    <button class="btn btn-primary" type="button">
-                        Buscar
-                    </button>
+        <div class="form-container">
+            <input type="hidden" id="sapato-id">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="modelo">Modelo:</label>
+                        <input type="text" id="modelo" class="form-control-lg" required>
+                        <span id="modelo-error" class="error"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="cor">Cor:</label>
+                        <input type="text" id="cor" class="form-control-lg" required>
+                        <span id="cor-error" class="error"></span>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="lista-produtos">
-            <!-- Produtos serão adicionados aqui via JavaScript -->
-        </div>
-    </div>
-
-    <!-- Botão flutuante para adicionar novo produto -->
-    <button class="btn btn-primary add-product-btn" data-bs-toggle="modal" data-bs-target="#addProductModal">
-        +
-    </button>
-
-    <!-- Modal para adicionar novo produto -->
-    <div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Adicionar Novo Produto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="numeracao">Numeração:</label>
+                        <select id="numeracao" class="form-select-lg" required>
+                            <option value="">Selecione</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
+                            <option value="36">36</option>
+                            <option value="37">37</option>
+                            <option value="38">38</option>
+                            <option value="39">39</option>
+                            <option value="40">40</option>
+                            <option value="41">41</option>
+                            <option value="42">42</option>
+                            <option value="43">43</option>
+                            <option value="44">44</option>
+                        </select>
+                        <span id="numeracao-error" class="error"></span>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form id="formNovoProduto">
-                        <div class="mb-3">
-                            <label for="productImage" class="form-label">Foto do Produto</label>
-                            <input class="form-control" type="file" id="productImage">
-                        </div>
-                        <div class="mb-3">
-                            <label for="productQuantity" class="form-label">Quantidade</label>
-                            <input type="number" class="form-control" id="productQuantity" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="productColor" class="form-label">Cor</label>
-                            <input type="text" class="form-control" id="productColor" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="productSize" class="form-label">Numeração</label>
-                            <input type="text" class="form-control" id="productSize" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="productModel" class="form-label">Modelo</label>
-                            <input type="text" class="form-control" id="productModel" required>
-                        </div>
-                    </form>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="valor">Valor (R$):</label>
+                        <input type="number" id="valor" step="0.01" class="form-control-lg" required>
+                        <span id="valor-error" class="error"></span>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnSalvarProduto">Salvar Produto</button>
-                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="foto-upload">Foto:</label>
+                <input type="file" id="foto-upload" accept="image/*" class="form-control" required>
+                <span id="foto-error" class="error"></span>
+            </div>
+            
+            <div class="buttons">
+                <button id="btn-cancelar" type="button" class="btn btn-danger" onclick="cancelarEdicao()">Cancelar Cadastro</button>
+                <button id="btn-adicionar" type="button" class="btn btn-success" onclick="adicionarSapato()">Cadastrar Produto</button>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="cadastro.js"></script> 
+    <script src="../estoque.js"></script>
 </body>
 </html>
