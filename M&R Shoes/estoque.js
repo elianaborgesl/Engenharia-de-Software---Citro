@@ -18,7 +18,7 @@ function gerarIdUnico() {
 function carregarEstoque() {
     const dados = localStorage.getItem("estoqueSapatos");
     estoque = dados ? JSON.parse(dados) : [];
-    console.log("Dados carregados:", estoque); // Adicione este log
+    console.log("Dados carregados:", estoque); 
 }
 
 // Salvar estoque no localStorage
@@ -93,6 +93,7 @@ async function adicionarSapato(){
     let cor = document.getElementById('cor').value;
     let numeracao = document.getElementById('numeracao').value;
     let valor = parseFloat(document.getElementById('valor').value);
+	let quantidade = document.getElementById('quantidade').value
     let foto = await processarFoto();
 
     // Novo cadastro
@@ -102,6 +103,7 @@ async function adicionarSapato(){
         cor,
         numeracao,
         valor,
+		quantidade,
         foto,
         dataCadastro: new Date().toLocaleString()
     };
@@ -111,19 +113,9 @@ async function adicionarSapato(){
     limparFormulario();
         
     // REDIRECIONAMENTO IMEDIATO
-    window.location.href = '../estoque.html';
+    window.location.href = '#produtos';
+	atualizarListaEstoque();
     
-}
-
-
-function mostrarMensagemSucesso(mensagem) {
-    const mensagemElement = document.getElementById('mensagem-sucesso');
-    mensagemElement.textContent = mensagem;
-    mensagemElement.classList.add('mostrar');
-    
-    setTimeout(() => {
-        mensagemElement.classList.remove('mostrar');
-    }, 3000);
 }
 
 // Editar sapato
@@ -137,6 +129,7 @@ function editarSapato(id) {
 	document.getElementById('cor').value = sapato.cor;
 	document.getElementById('numeracao').value = sapato.numeracao;
 	document.getElementById('valor').value = sapato.valor;
+	document.getElementById('quantidade').value = sapato.quantidade;
     
 	  document.getElementById('foto-upload').value = '';
 
@@ -148,21 +141,13 @@ function editarSapato(id) {
 	document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
 }
 
-// Cancelar edição
-function cancelarEdicao() {
-	editandoId = null;
-	document.getElementById('form-title').textContent = 'Adicionar Novo Sapato';
-	document.getElementById('btn-adicionar').textContent = 'Adicionar ao Estoque';
-	document.getElementById('btn-cancelar').classList.add('hidden');
-	limparFormulario();
-}
-
 // Limpar formulário
 function limparFormulario() {
 	document.getElementById('modelo').value = '';
     document.getElementById('cor').value = '';
     document.getElementById('numeracao').value = '';
     document.getElementById('valor').value = '';
+	document.getElementById('quantidade').value = '';
     document.getElementById('foto-upload').value = '';
     
     document.getElementById('modelo-error').textContent = '';
@@ -171,12 +156,12 @@ function limparFormulario() {
     document.getElementById('valor-error').textContent = '';
     document.getElementById('foto-error').textContent = '';
     
-    if (editandoId) {
+    /*if (editandoId) {
         document.getElementById('form-title').textContent = 'Adicionar Novo Sapato';
         document.getElementById('btn-adicionar').textContent = 'Adicionar ao Estoque';
         document.getElementById('btn-cancelar').classList.add('hidden');
         editandoId = null;
-    }
+    }*/
 }
 
 // Abrir modal de confirmação
@@ -270,24 +255,27 @@ function atualizarListaEstoque() {
         const foto = sapato.foto || "placeholder.jpg";
         const modelo = sapato.modelo || "Modelo desconhecido";
         const valor = sapato.valor ? sapato.valor.toFixed(2) : "0.00";
+		const quantidade = sapato.quantidade || "0";
         const data = sapato.dataCadastro || "Data desconhecida";
         
         const sapatoCard = document.createElement('div');
-        sapatoCard.className = 'col-md-4 mb-4';
+        sapatoCard.className = 'col-md-3 mb-4';
         sapatoCard.innerHTML = `
             <div class="card h-100">
-                <img src="${foto}" class="card-img-top" alt="${modelo}" style="height: 200px; object-fit: cover;">
+                <img src="${foto}" class="card-img-top" alt="${modelo}" style="height: 200px; object-fit: cover">
                 <div class="card-body">
-                    <h5 class="card-title">${modelo}</h5>
-                    <p class="card-text"><strong>Cor:</strong> ${sapato.cor || "Não informada"}</p>
-                    <p class="card-text"><strong>Numeração:</strong> ${sapato.numeracao || "N/I"}</p>
-                    <p class="card-text"><strong>Valor:</strong> R$ ${valor}</p>
+                    <h5 class="card-title"><strong>${modelo}</strong></h5>
+                    <p class="card-text" style="margin-bottom: 0px"><strong>COR:</strong> ${sapato.cor || "Não informada"}</p>
+                    <p class="card-text" style="margin-bottom: 0px"><strong>NUMERAÇÃO:</strong> ${sapato.numeracao || "N/I"}</p>
+                    <p class="card-text" style="margin-bottom: 0px"><strong>VALOR:</strong> R$ ${valor}</p>
+					<p class="card-text"><strong>QUANTIDADE:</strong> ${quantidade}</p>
                     <p class="card-text"><small class="text-muted">Cadastrado em: ${data}</small></p>
                 </div>
-                <div class="card-footer bg-white">
+                <div class="card-footer bg-white" style="display: flex; justify-content: center">
                     <div class="d-grid gap-2 d-md-flex">
-                        <button class="btn btn-primary btn-editar" data-id="${sapato.id}">Editar</button>
-                        <button class="btn btn-danger btn-remover" data-id="${sapato.id}">Remover</button>
+                        <button class="btn btn-outline-primary btn-lg" data-id="${sapato.id}" id="btn-editar">Editar</button>
+                        <button class="btn btn-outline-danger btn-lg" data-id="${sapato.id}" id="btn-remover">Remover</button>
+						<button class="btn btn-outline-success btn-lg" data-id="${sapato.id}" id="btn-venda">Venda</button>
                     </div>
                 </div>
             </div>
@@ -295,7 +283,6 @@ function atualizarListaEstoque() {
         listaSapatos.appendChild(sapatoCard);
     });
 }
-
 
 // Exportar estoque para JSON
 function exportarEstoque() {
@@ -310,7 +297,6 @@ function exportarEstoque() {
 	linkElement.click();
 }
 
-// Importar estoque de JSON
 function importarEstoque(input) {
 	const file = input.files[0];
 	if (!file) return;
@@ -320,6 +306,7 @@ function importarEstoque(input) {
 	// Limpar o input para permitir nova seleção do mesmo arquivo
 	input.value = '';
 }
+
 
 // Confirmar importação
 function confirmarImportacao(file) {

@@ -86,3 +86,125 @@ body {
     color: white;
 }
 
+/*DAQUI P BAIXO CSS REFERENTE A PAGINA DE CADASTRO*/
+:root {
+ --primary-color: #D4AF37;
+--secondary-color: #F5F0E4;
+ --light-color: #f8f9fa;
+ --dark-color: #212529;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+    display: grid;
+    place-items: center; 
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    outline: none;
+}
+
+.error {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.buttons {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.btn-success:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+
+.btn-danger:hover {
+    background-color: #dee2e6;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .buttons {
+        flex-direction: column;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.mensagem-sucesso {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+}
+
+.mensagem-sucesso.mostrar {
+    opacity: 1;
+}
+
+section {
+  scroll-margin-top: 75px; 
+}
