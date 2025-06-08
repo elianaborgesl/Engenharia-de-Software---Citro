@@ -21,7 +21,6 @@
                     <div class="navbar-nav w-100">
                         <a class="nav-link active" href="#produtos">Produtos</a>
                         <a class="nav-link" href="#cadastro-produtos">Cadastro</a>
-                        <a class="nav-link" href="#">Entrada</a>
                         <a class="nav-link" href="#backup">Backup</a>
                     </div>
                 </div>
@@ -30,10 +29,46 @@
 
         <header class="header text-center">
             <div class="estoque-list container">
-                <h1 class="display-4 fw-bold" id="titulo-estoque">Estoque Atual: <span id="total-itens">0</span> par</h1>
+                <h1 class="display-4 fw-bold" id="titulo-estoque">Estoque Atual: <span id="total-itens">0</span> pares</h1>
             </div>
         </header>
 
+        <div class="total-filtros">
+            <h2 style="text-align: center; font-size: 25px;">FILTRAR ESTOQUE</h2>
+            <div class="filtros">
+    	        <div class="form-group">
+        	        <label for="filtro-modelo">MODELO:</label>
+        	        <input type="text" id="filtro-modelo" placeholder="Digite um modelo">
+    	        </div>
+    	        <div class="form-group">
+        	        <label for="filtro-cor">COR:</label>
+        	        <input type="text" id="filtro-cor" placeholder="Digite uma cor">
+    	        </div>
+    	        <div class="form-group">
+        	        <label for="filtro-numeracao">NUMERAÇÃO:</label>
+        	        <select id="filtro-numeracao">
+                        <option value="">Selecione</option>
+				        <option value="33">33</option>
+            	        <option value="34">34</option>
+            	        <option value="35">35</option>
+            	        <option value="36">36</option>
+            	        <option value="37">37</option>
+            	        <option value="38">38</option>
+            	        <option value="39">39</option>
+            	        <option value="40">40</option>
+            	        <option value="41">41</option>
+            	        <option value="42">42</option>
+            	        <option value="43">43</option>
+            	        <option value="44">44</option>
+        	        </select>
+    	        </div>
+	        </div>
+            <div id="buttons-filtro">
+    	        <button class="btn btn-outline-primary" onclick="filtrarEstoque()">Aplicar Filtros</button>
+    	        <button class="btn btn-outline-danger" onclick="limparFiltros()">Limpar Filtros</button>
+            </div>
+        </div>
+        
         <div class="row" id="listaSapatos"></div>
     </section>
 
@@ -73,6 +108,7 @@
                             <label for="numeracao">Numeração:</label>
                             <select id="numeracao" class="form-select-lg" required>
                                 <option value="">Selecione</option>
+                                <option value="33">33</option>
                                 <option value="34">34</option>
                                 <option value="35">35</option>
                                 <option value="36">36</option>

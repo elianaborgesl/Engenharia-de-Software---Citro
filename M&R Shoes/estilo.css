@@ -208,3 +208,36 @@ body {
 section {
   scroll-margin-top: 75px; 
 }
+
+/*css referente ao filtro de sapatos*/
+
+#buttons-filtro{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.filtros {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    text-align: center; 
+    width: 100%;
+    max-width: 1000px; 
+    margin: 0 auto; 
+    margin-bottom: 0rem;
+    gap: 10px;
+}
+
+.total-filtros{
+    border: 2px solid #e0e0e0;
+    border-radius: 8px; /* Cantos arredondados */
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+

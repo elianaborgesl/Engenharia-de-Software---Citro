@@ -199,23 +199,6 @@ function confirmarRemocao(id) {
 	atualizarListaEstoque();
 }
 
-// Filtrar estoque
-function filtrarEstoque() {
-	const filtroModelo = document.getElementById('filtro-modelo').value.toLowerCase();
-	const filtroCor = document.getElementById('filtro-cor').value.toLowerCase();
-	const filtroNumeracao = document.getElementById('filtro-numeracao').value;
-    
-	const estoqueFiltrado = carregarEstoque().filter(sapato => {
-    	const modeloMatch = sapato.modelo.toLowerCase().includes(filtroModelo);
-    	const corMatch = sapato.cor.toLowerCase().includes(filtroCor);
-    	const numeracaoMatch = filtroNumeracao ? sapato.numeracao === filtroNumeracao : true;
-   	 
-    	return modeloMatch && corMatch && numeracaoMatch;
-	});
-    
-	renderizarListaEstoque(estoqueFiltrado);
-}
-
 // Limpar filtros
 function limparFiltros() {
 	document.getElementById('filtro-modelo').value = '';
@@ -224,60 +207,82 @@ function limparFiltros() {
 	atualizarListaEstoque();
 }
 
-// Renderizar lista de estoque
-function atualizarListaEstoque() {
-    carregarEstoque(); // Recarrega os dados
+// Filtrar estoque 
+function filtrarEstoque() {
+    const filtroModelo = document.getElementById('filtro-modelo').value.toLowerCase();
+    const filtroCor = document.getElementById('filtro-cor').value.toLowerCase();
+    const filtroNumeracao = document.getElementById('filtro-numeracao').value;
     
+    // Carrega o estoque uma vez
+    carregarEstoque();
+    
+    // Filtra os itens
+    const estoqueFiltrado = estoque.filter(sapato => {
+        const modeloMatch = sapato.modelo?.toLowerCase().includes(filtroModelo) ?? false;
+        const corMatch = sapato.cor?.toLowerCase().includes(filtroCor) ?? false;
+        const numeracaoMatch = filtroNumeracao ? sapato.numeracao?.toString() === filtroNumeracao : true;
+        
+        return modeloMatch && corMatch && numeracaoMatch;
+    });
+    
+    atualizarListaEstoque(estoqueFiltrado);
+}
+
+// Renderizar lista de estoque
+function atualizarListaEstoque(estoqueFiltrado = null) {
     const listaSapatos = document.getElementById('listaSapatos');
     const totalItens = document.getElementById('total-itens');
     
-    // Verificação robusta dos elementos DOM
     if (!listaSapatos || !totalItens) {
         console.error("Elementos não encontrados!");
         return;
     }
     
-    // Limpa a lista
     listaSapatos.innerHTML = '';
     
-    // Atualiza contador
-    totalItens.textContent = estoque.length.toString();
+    // Usa estoqueFiltrado se existir, senão usa o estoque completo
+    const itensParaExibir = estoqueFiltrado !== null ? estoqueFiltrado : estoque;
+    totalItens.textContent = itensParaExibir.length.toString();
     
-    // Trata estoque vazio
-    if (estoque.length === 0) {
+    if (itensParaExibir.length === 0) {
         listaSapatos.innerHTML = '<div class="col-12"><p class="text-center py-4">Nenhum sapato encontrado.</p></div>';
         return;
     }
     
     // Gera os cards
-    estoque.forEach(sapato => {
-        // Tratamento para valores undefined
+    itensParaExibir.forEach(sapato => {
         const foto = sapato.foto || "placeholder.jpg";
         const modelo = sapato.modelo || "Modelo desconhecido";
         const valor = sapato.valor ? sapato.valor.toFixed(2) : "0.00";
-		const quantidade = sapato.quantidade || "0";
+        const quantidade = sapato.quantidade || "0";
         const data = sapato.dataCadastro || "Data desconhecida";
         
         const sapatoCard = document.createElement('div');
-        sapatoCard.className = 'col-md-3 mb-4';
+        sapatoCard.className = 'col-md-2 mb-4';
         sapatoCard.innerHTML = `
-            <div class="card h-100">
-                <img src="${foto}" class="card-img-top" alt="${modelo}" style="height: 200px; object-fit: cover">
+            <div class="card h-100" style="width: 250px;">
+                <img src="${foto}" class="card-img-top" alt="${modelo}" style="height: 150px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title"><strong>${modelo}</strong></h5>
                     <p class="card-text" style="margin-bottom: 0px"><strong>COR:</strong> ${sapato.cor || "Não informada"}</p>
                     <p class="card-text" style="margin-bottom: 0px"><strong>NUMERAÇÃO:</strong> ${sapato.numeracao || "N/I"}</p>
                     <p class="card-text" style="margin-bottom: 0px"><strong>VALOR:</strong> R$ ${valor}</p>
-					<p class="card-text"><strong>QUANTIDADE:</strong> ${quantidade}</p>
+                    <p class="card-text"><strong>QUANTIDADE:</strong> ${quantidade}</p>
                     <p class="card-text"><small class="text-muted">Cadastrado em: ${data}</small></p>
                 </div>
-                <div class="card-footer bg-white" style="display: flex; justify-content: center">
-                    <div class="d-grid gap-2 d-md-flex">
-                        <button class="btn btn-outline-primary btn-lg" data-id="${sapato.id}" id="btn-editar">Editar</button>
-                        <button class="btn btn-outline-danger btn-lg" data-id="${sapato.id}" id="btn-remover">Remover</button>
-						<button class="btn btn-outline-success btn-lg" data-id="${sapato.id}" id="btn-venda">Venda</button>
-                    </div>
-                </div>
+                <div class="card-footer bg-white" style="padding: 0.75rem; margin-top: auto;">
+        			<div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+            			<button class="btn btn-outline-primary" 
+                    	style="padding: 0.375rem 0.75rem; font-size: 15px; flex: 1; min-width: 60px;"
+                    	data-id="${sapato.id}" id="btn-editar">Editar</button>
+            			<button class="btn btn-outline-danger" 
+                    	style="padding: 0.375rem 0.75rem; font-size: 15px; flex: 1; min-width: 60px;"
+                    	data-id="${sapato.id}" id="btn-remover">Excluir</button>
+            			<button class="btn btn-outline-success" 
+                    	style="padding: 0.375rem 0.75rem; font-size: 15px; flex: 1; min-width: 60px;"
+                    	data-id="${sapato.id}" id="btn-venda">Venda</button>
+        			</div>
+    			</div>
             </div>
         `;
         listaSapatos.appendChild(sapatoCard);
